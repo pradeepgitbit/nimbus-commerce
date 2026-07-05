@@ -1,0 +1,111 @@
+name: Nimbus CI/CD
+
+permissions:
+  contents: write
+
+# Trigger
+
+on:
+    push:
+        branches:
+            - main
+
+    workflow_dispatch:                  #lets trigger the workflow manually from GitHub.
+
+
+# Runner
+jobs:
+    build:
+
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Configure AWS Credentials
+          uses: aws-action/configure-aws-credentials@v4
+          
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
+        
+        - name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v2
+
+          # Product Image
+
+        - name: Build Product Image
+          run: docker build -t nimbus-product:${{ github.sha }} ./services/product-service       # Instead of v1, we use the Git commit SHA so every build is uniquely identifiable.
+            
+        - name: Tag Product Image
+          run: |
+            docker tag \
+                nimbus-products:${{ github.sha }} \
+                ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/nimbus-product:${{ github.sha }}
+
+        - name: Push Product Image
+          run: |
+            docker push \
+                ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/nimbus-product:${{ github.sha }}
+
+        # Inventory Image
+
+        - name: Build Inventory Image
+          run: docker build -t nimbus-inventory:${{ github.sha }} ./services/inventory-service       # Instead of v1, we use the Git commit SHA so every build is uniquely identifiable.
+            
+        - name: Tag Inventory Image
+          run: |
+            docker tag \
+                nimbus-inventory:${{ github.sha }} \
+                ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/nimbus-inventory:${{ github.sha }}
+
+        - name: Push Inventory Image
+          run: |
+            docker push \
+                ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/nimbus-inventory:${{ github.sha }}
+        
+         # API Gateway
+         
+        - name: Build Gateway Image
+          run: docker build -t nimbus-gateway:${{ github.sha }} ./services/gateway-service       # Instead of v1, we use the Git commit SHA so every build is uniquely identifiable.
+            
+        - name: Tag Gateway Image
+          run: |
+            docker tag \
+                nimbus-gateway:${{ github.sha }} \
+                ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/nimbus-gateway:${{ github.sha }}
+
+        - name: Push Gateway Image
+          run: |
+            docker push \
+                ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/nimbus-gateway:${{ github.sha }}
+
+        # Replace every tag: line with the current commit SHA inside values.yaml file
+        - name: Update Helm Image Tags
+          run: |
+            sed -i "s/tag: .*/tag: {{ github.sha }}/" helm/nimbus-commerce/values.yaml
+
+        # Configure Git inside the GitHub Actions runner:
+        - name: Configure Git
+          run: |
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            
+        # Commit the updated Helm chart only if it changed:
+        - name: Commit Helm Changes
+          run: |
+            git add helm/nimbus-commerce/values.yaml
+            git diff --cached --quiet || git commit -m "Update image tags to $$ github.sha }}"
+
+        # Push the commit back to GitHub:
+        - name: Push Changes
+          run: |
+            git push
+
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+            persist-credentials: true

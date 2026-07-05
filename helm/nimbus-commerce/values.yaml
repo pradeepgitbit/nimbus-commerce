@@ -1,0 +1,51 @@
+
+# Replica count
+replicaCount: 1
+
+# Docker Images
+images:
+  product:
+    repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-product
+    tag: v1
+
+  inventory:
+    repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-inventory
+    tag: v1
+
+  gateway:
+    repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-gateway
+    tag: v1
+
+  postgres:
+    repository: postgres
+    tag: "16-alpine"
+
+# Service Ports
+service:
+  gateway: 8083
+  product: 8081
+  inventory: 8082
+  postgres: 5432
+
+# PostgreSQL
+postgres:
+  database: nimbus
+  username: postgres
+  password: postgres
+
+# Resources
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+# HPA
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+  cpuUtilization: 70

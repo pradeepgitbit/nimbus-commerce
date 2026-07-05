@@ -1,0 +1,7 @@
+apiVersion: v2
+name: nimbus-commerce
+description: Nimbus Commerce DevOps Project
+type: application
+
+version: 0.1.0
+appVersion: "1.0.0"

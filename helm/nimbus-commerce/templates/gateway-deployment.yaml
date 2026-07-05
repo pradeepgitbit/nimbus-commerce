@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: api-gateway
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: api-gateway
+
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+
+    spec:
+      imagePullSecrets:
+        - name: ecr-secret
+        
+      containers:
+        - name: api-gateway
+
+          image: "{{ .Values.images.gateway.repository }}:{{ .Values.images.gateway.tag }}"
+
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8083
+
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: nimbus-config
+                  key: DB_HOST
+
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: nimbus-config
+                  key: DB_PORT
+
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: nimbus-config
+                  key: DB_NAME
+
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: nimbus-secret
+                  key: DB_USER
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: nimbus-secret
+                  key: DB_PASSWORD
+
+            - name: PRODUCT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: nimbus-config
+                  key: PRODUCT_SERVICE_URL
+
+            - name: INVENTORY_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: nimbus-config
+                  key: INVENTORY_SERVICE_URL
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8083
+            initialDelaySeconds: 10
+            periodSeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8083
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
+          resources:
+{{ toYaml .Values.resources | indent 12 }}

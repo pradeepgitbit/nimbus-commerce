@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nimbus-config
+data:
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_NAME: {{ .Values.postgres.database | quote }}
+
+  PRODUCT_SERVICE_URL: http://product-service:8081
+  INVENTORY_SERVICE_URL: http://inventory-service:8082
