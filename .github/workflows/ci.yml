@@ -50,7 +50,7 @@ jobs:
         run: |
           docker build \
             -t nimbus-product:${{ github.sha }} \
-            -f ./services/product-service/Dockerfile .
+            -f docker/product.DOCKERFILE .
 
       - name: Tag Product Image
         run: |
@@ -70,7 +70,7 @@ jobs:
         run: |
           docker build \
             -t nimbus-inventory:${{ github.sha }} \
-            -f ./services/inventory-service/Dockerfile .
+            -f docker/inventory.DOCKERFILE .
 
       - name: Tag Inventory Image
         run: |
@@ -90,7 +90,7 @@ jobs:
         run: |
           docker build \
             -t nimbus-gateway:${{ github.sha }} \
-            -f ./services/api-gateway/Dockerfile .
+            -f docker/gateway.DOCKERFILE .
 
       - name: Tag Gateway Image
         run: |
@@ -108,7 +108,7 @@ jobs:
       ####################################################
       - name: Update Helm Tags
         run: |
-          sed -i "s/tag: .*/tag: ${{ github.sha }}/g" helm/nimbus-commerce/values.yaml
+          sed -i "s/tag: .*/tag: \"${{ github.sha }}\"/" helm/nimbus-commerce/values.yaml
 
       ####################################################
       # COMMIT

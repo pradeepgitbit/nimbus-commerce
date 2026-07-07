@@ -9,8 +9,8 @@ RUN go mod download
 COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build \
--o inventory-service \
-./services/inventory-service/cmd/server
+    -o inventory-service \
+    ./services/inventory-service/cmd/server
 
 FROM alpine:3.21
 
