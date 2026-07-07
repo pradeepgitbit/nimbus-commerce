@@ -77,8 +77,8 @@ docker-compose.override.yml
 # AWS Credentials
 # ==========================================
 .aws/
-credentials
-config
+.aws/config
+.aws/credentials
 
 # ==========================================
 # Local Testing
@@ -107,3 +107,6 @@ loki-data/
 # ==========================================
 *.tmp
 *.cache
+
+# Local compiled binaries
+server
