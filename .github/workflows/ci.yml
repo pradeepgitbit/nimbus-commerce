@@ -50,7 +50,7 @@ jobs:
         run: |
           docker build \
             -t nimbus-product:${{ github.sha }} \
-            ./services/product-service
+            -f ./services/product-service/Dockerfile .
 
       - name: Tag Product Image
         run: |
@@ -70,7 +70,7 @@ jobs:
         run: |
           docker build \
             -t nimbus-inventory:${{ github.sha }} \
-            ./services/inventory-service
+            -f ./services/inventory-service/Dockerfile .
 
       - name: Tag Inventory Image
         run: |
@@ -90,7 +90,7 @@ jobs:
         run: |
           docker build \
             -t nimbus-gateway:${{ github.sha }} \
-            ./services/api-gateway
+            -f ./services/api-gateway/Dockerfile .
 
       - name: Tag Gateway Image
         run: |
