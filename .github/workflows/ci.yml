@@ -1,4 +1,4 @@
-name: Nimbus Commerce CI/CD     #WorkflowCI
+name: Nimbus Commerce CI/CD     #WorkflowCI.part
 
 permissions:
   contents: write
