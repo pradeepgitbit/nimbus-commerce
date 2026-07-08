@@ -12,6 +12,9 @@ spec:
       labels:
         app: postgres
     spec:
+      imagePullSecrets:
+        - name: ecr-secret
+        
       containers:
       - name: postgres
         image: "{{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}"
