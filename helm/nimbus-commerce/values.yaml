@@ -6,19 +6,19 @@ replicaCount: 1
 images:
   product:
     repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-product
-    tag: "b2ac05e045c88c26d8395b8f92bcb8f79affbaad"
+    tag: "6a7451a3fee809d0bb3a9ea68241095c61ba2515"
 
   inventory:
     repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-inventory
-    tag: "b2ac05e045c88c26d8395b8f92bcb8f79affbaad"
+    tag: "6a7451a3fee809d0bb3a9ea68241095c61ba2515"
 
   gateway:
     repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-gateway
-    tag: "b2ac05e045c88c26d8395b8f92bcb8f79affbaad"
+    tag: "6a7451a3fee809d0bb3a9ea68241095c61ba2515"
 
   postgres:
     repository: postgres
-    tag: "b2ac05e045c88c26d8395b8f92bcb8f79affbaad"
+    tag: "6a7451a3fee809d0bb3a9ea68241095c61ba2515"
 
 # Service Ports
 service:
