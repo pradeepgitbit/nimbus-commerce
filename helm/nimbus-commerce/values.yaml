@@ -18,7 +18,7 @@ images:
 
   postgres:
     repository: postgres
-    tag: "6a7451a3fee809d0bb3a9ea68241095c61ba2515"
+    tag: "16-alpine"
 
 # Service Ports
 service:

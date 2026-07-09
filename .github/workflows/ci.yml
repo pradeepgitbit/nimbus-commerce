@@ -106,9 +106,11 @@ jobs:
       ####################################################
       # UPDATE HELM
       ####################################################
-      - name: Update Helm Tags
+      - name: Update Helm Image Tags
         run: |
-          sed -i "s/tag: .*/tag: \"${{ github.sha }}\"/" helm/nimbus-commerce/values.yaml
+          sed -i "/product:/,/inventory:/ s/tag:.*/tag: ${{ github.sha }}/" helm/nimbus-commerce/values.yaml
+          sed -i "/inventory:/,/gateway:/ s/tag:.*/tag: ${{ github.sha }}/" helm/nimbus-commerce/values.yaml
+          sed -i "/gateway:/,/postgres:/ s/tag:.*/tag: ${{ github.sha }}/" helm/nimbus-commerce/values.yaml
 
       ####################################################
       # COMMIT
