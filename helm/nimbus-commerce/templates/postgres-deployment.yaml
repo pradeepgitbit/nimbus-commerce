@@ -14,10 +14,10 @@ spec:
     spec:
       imagePullSecrets:
         - name: ecr-secret
-        
+
       containers:
       - name: postgres
-        image: "{{ .Values.images.postgres.repository }}:{{ .Values.images.postgres.tag }}"
+        image: postgres:16-alpine
         ports:
         - containerPort: 5432
         volumeMounts:
