@@ -10,7 +10,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/pradeepgitbit/nimbus-commerce.git
+    repoURL: https://github.com/pradeepgitbit/NimbusCommerce.git
     targetRevision: main
     path: helm/nimbus-commerce
 
