@@ -6,15 +6,15 @@ replicaCount: 1
 images:
   product:
     repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-product
-    tag: 39cd14c0ff37b323f3f1d3e2ffbef17b868a8e34
+    tag: 2f5a114a5c1873ab3a79b17b528682e1fc586ca7
 
   inventory:
     repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-inventory
-    tag: 39cd14c0ff37b323f3f1d3e2ffbef17b868a8e34
+    tag: 2f5a114a5c1873ab3a79b17b528682e1fc586ca7
 
   gateway:
     repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-gateway
-    tag: 39cd14c0ff37b323f3f1d3e2ffbef17b868a8e34
+    tag: 2f5a114a5c1873ab3a79b17b528682e1fc586ca7
 
   postgres:
     repository: postgres
