@@ -10,15 +10,15 @@ imagePullSecrets:
 images:
   product:
     repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-product
-    tag: 36a88c30c87d9fb1ece854b4161de4f65ce1ed10
+    tag: 08981c51e029a0307b704d0e83b9cb3991e6b39c
 
   inventory:
     repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-inventory
-    tag: 36a88c30c87d9fb1ece854b4161de4f65ce1ed10
+    tag: 08981c51e029a0307b704d0e83b9cb3991e6b39c
 
   gateway:
     repository: 189624918883.dkr.ecr.ap-south-1.amazonaws.com/nimbus-gateway
-    tag: 36a88c30c87d9fb1ece854b4161de4f65ce1ed10
+    tag: 08981c51e029a0307b704d0e83b9cb3991e6b39c
 
   postgres:
     repository: postgres
