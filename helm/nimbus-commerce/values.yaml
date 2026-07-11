@@ -2,6 +2,10 @@
 # Replica count
 replicaCount: 1
 
+
+imagePullSecrets:
+  - name: ecr-secret
+
 # Docker Images
 images:
   product:
