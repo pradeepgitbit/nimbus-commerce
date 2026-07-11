@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func newReverseProxy(target string) *httputil.ReverseProxy {
@@ -45,6 +46,7 @@ func main() {
 	inventoryProxy := newReverseProxy(inventoryServiceURL)
 
 	router := gin.Default()
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	// Health
 	router.GET("/health", func(c *gin.Context) {
