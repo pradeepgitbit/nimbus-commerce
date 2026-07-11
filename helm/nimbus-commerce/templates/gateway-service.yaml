@@ -3,13 +3,15 @@ kind: Service
 
 metadata:
   name: apigateway-service
-
+  labels:
+    monitoring: nimbus
 spec:
   selector:
     app: api-gateway
 
   ports:
-    - port: 8083
+    - name: http
+      port: 8083
       targetPort: 8083
 
   type: ClusterIP
